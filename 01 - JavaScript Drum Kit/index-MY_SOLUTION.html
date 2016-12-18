@@ -58,7 +58,29 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+  // on keypress,
+  // 1. add class playing
+  // 2. play audio
+  // 3. after finish remove class playing
+  window.addEventListener("keydown", function (event) {
+    let key = document.querySelector(`div[data-key="${event.keyCode}"]`)
+    if (key) { playSound(key) }
+  })
 
+  window.addEventListener("transitionend", function(event) {
+    let key = document.querySelector(`.playing`)
+    if (key) { removeCSS(key) }
+  })
+
+  function playSound(key) {
+    key.classList.add("playing");
+    let sound = document.querySelector(`audio[data-key="${event.keyCode}"]`)
+    sound.play()
+  }
+
+  function removeCSS(key) {
+    key.classList.remove("playing")
+  }
 
 </script>
 
