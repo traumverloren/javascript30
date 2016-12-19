@@ -60,16 +60,14 @@
   </style>
 
   <script>
-    const inputs = Array.from(document.querySelectorAll('input'))
-    inputs.forEach(input => input.addEventListener("input", updateValue))
-
-    function updateValue(event) {
-      if (this.name === 'base') {
-        document.documentElement.style.setProperty(`--${this.name}`, event.target.value);
-      } else {
-        document.documentElement.style.setProperty(`--${this.name}`, `${event.target.value}px`);
-      }
+    function updateValue() {
+      const suffix = this.dataset.sizing || '';
+      document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
     }
+
+    const inputs = Array.from(document.querySelectorAll('input'))
+
+    inputs.forEach(input => input.addEventListener("input", updateValue))
   </script>
 
 </body>
