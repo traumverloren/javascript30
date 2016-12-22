@@ -26,23 +26,34 @@ fetch(endpoint)
 function searchCities(searchTerm, cities) {
   return cities.filter(item => {
     let regex = new RegExp(searchTerm, 'gi');
-    return item.city.match(regex);
+    return item.city.match(regex) || item.state.match(regex);
   });
 }
 
-function showSuggestions() {
-  const suggestions = document.querySelector('.suggestions');
-  const matches = searchCities(this.value, cities);
-  const matchesHTML = matches.map(match =>
-    `<li>${match.city}, ${match.state} <span class="population">${parseFloat(match.population).toLocaleString()}</li>`
-  );
+function displayMatches() {
+  const matchArray = searchCities(this.value, cities);
+  const matchesHTML = matchArray.map(match =>
+    {
+      const regex = new RegExp(this.value, 'gi');
+      const cityName = match.city.replace(regex, `<span class="hl">${this.value}</span>`);
+      const stateName = match.state.replace(regex, `<span class="hl">${this.value}</span>`);
+      const popultion = parseFloat(match.population).toLocaleString()
+      return `
+      <li>
+        <span class="place">${cityName}, ${stateName}</span>
+        <span class="population">${population}</span>
+      </li>
+      `;
+    }
+  ).join('');
 
-  suggestions.innerHTML = matchesHTML.join("\n");
+  suggestions.innerHTML = matchesHTML;
 }
 
-const input = document.querySelector('input');
+const searchInput = document.querySelector('.search');
+const suggestions = document.querySelector('.suggestions');
 
-input.addEventListener("input", showSuggestions);
+searchInput.addEventListener("input", displayMatches);
 
 </script>
   </body>
