@@ -37,7 +37,7 @@ function displayMatches() {
       const regex = new RegExp(this.value, 'gi');
       const cityName = match.city.replace(regex, `<span class="hl">${this.value}</span>`);
       const stateName = match.state.replace(regex, `<span class="hl">${this.value}</span>`);
-      const popultion = parseFloat(match.population).toLocaleString()
+      const population = parseFloat(match.population).toLocaleString()
       return `
       <li>
         <span class="place">${cityName}, ${stateName}</span>
