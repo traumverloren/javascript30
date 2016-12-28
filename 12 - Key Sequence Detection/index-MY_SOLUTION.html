@@ -31,14 +31,23 @@
 
 <script>
 const h2 = document.querySelector("h2");
-const secretCode = "38,38,40,40,37,39,37,39,66,65";
-let konamiCode = [];
+const secretCode = [38,38,40,40,37,39,37,39,66,65];
+const konamiCode = [];
 
 function checkKonamiCode(e) {
   konamiCode.push(e.keyCode);
-  if (konamiCode.length === 10) {
-    konamiCode.join() === secretCode ? h2.textContent = "w00t, you are clever!" : konamiCode.length = 0;
+
+  // this allows the array to always just look at the last keycodes that are the same array
+  // length of the secret code! clever!
+  konamiCode.splice(-secretCode.length - 1, konamiCode.length - secretCode.length);
+
+  if (konamiCode.join() === secretCode.join()) {
+    h2.textContent = "w00t, you are clever!";
   }
+
+  // if (konamiCode.length === 10) {
+  //   konamiCode.join() === secretCode ? h2.textContent = "w00t, you are clever!" : konamiCode.length = 0;
+  // }
 }
 
 window.addEventListener("keydown", checkKonamiCode);
