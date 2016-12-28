@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Key Detection</title>
+  <script type="text/javascript" src="http://www.cornify.com/js/cornify.js"></script>
+  <style>
+  body {
+    min-height: 100vh;
+    font-family: sans-serif;
+    background: #1abc9c;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 50px;
+    color:white;
+    text-shadow: 3px 3px 0 rgba(0,0,0,0.2);
+  }
+  .secret {
+    display: inline-block;
+    transition: transform 0.2s;
+  }
+  .secret:hover {
+    transform: translateY(-20px) rotate(10deg) scale(2);
+  }
+  </style>
+</head>
+<body>
+  <h2 class="secret"></h2>
+
+<script>
+const h2 = document.querySelector("h2");
+const secretCode = "38,38,40,40,37,39,37,39,66,65";
+let konamiCode = [];
+
+function checkKonamiCode(e) {
+  konamiCode.push(e.keyCode);
+  if (konamiCode.length === 10) {
+    konamiCode.join() === secretCode ? h2.textContent = "w00t, you are clever!" : konamiCode.length = 0;
+  }
+}
+
+window.addEventListener("keydown", checkKonamiCode);
+</script>
+</body>
+</html>
