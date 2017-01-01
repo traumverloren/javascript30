@@ -32,27 +32,47 @@
 
   function addItem(e) {
     e.preventDefault();
-    const item = this.querySelector("input[name=item]").value;
+    const text = this.querySelector("input[name=item]").value;
+    const item = {
+      text,
+      done: false
+    }
 
     items.push(item);
-    createList(items);
+    createList(items, itemsList);
+
     // add the items to local storage with key 'items'
     localStorage.setItem('items', JSON.stringify(items));
+    // clear text input field
     this.reset();
   }
 
-  function createList(items) {
-    itemsList.innerHTML = items.map(item =>
+  function createList(items, itemsList) {
+    itemsList.innerHTML = items.map((plate, i) =>
     {
       return `
-        <li>${item}</li>
-      `
+        <li>
+        <input type="checkbox" data-index=${i} id="item${i}" ${plate.done ? 'checked' : ''} />
+        <label for="item${i}">${plate.text}</label>
+        </li>
+      `;
     }).join('');
   }
 
-  addItems.addEventListener('submit', addItem);
+  function toggleDone(e) {
+    // only get clicks on checkbox inputs
+    if (!e.target.matches('input')) return;
+    const el = e.target;
+    const index = el.dataset.index;
+    items[index].done = !items[index].done;
+    localStorage.setItem('items', JSON.stringify(items));
+    createList(items, itemsList);
+  }
 
-  createList(items);
+  addItems.addEventListener('submit', addItem);
+  itemsList.addEventListener('click', toggleDone);
+
+  createList(items, itemsList);
 
 </script>
 
